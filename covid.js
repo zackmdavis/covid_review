@@ -7,7 +7,7 @@ function doBayes() {
         PB[i] /= 52;
     }
     let PBFlu = [0.3, 0.3, 0.3, 0, 0.3, 0.1, 0.1, 0.1, 0.3, 0];
-    let PBCold = [0.03, 0.1, 0.3, 0.3, 0.3, 0.3, 0, 0.03, 0];
+    let PBCold = [0.03, 0.1, 0.1, 0.3, 0.3, 0.3, 0.3, 0, 0.03, 0];
     let PBCovid = [0.879, 0.381, 0.677, 0.001, 0.148, 0.048, 0.139, 0.037, 0.136, 0.186];
 
     let Psymptomset = 1;
@@ -32,5 +32,11 @@ function doBayes() {
     // convert odds ratio to probability?
     Pcovid = Pcovid / (1 + Pcovid);
 
-    document.getElementById("diseaseChances").innerHTML = "<p>Coronavirus chance: " + Pcovid * 100 + "%" + "</p>"
+    let Pflu = PA[2] / Psymptomset * Psymptomset_flu;
+    Pflu = Pflu/(1 + Pflu);
+
+    let Pcold = PA[1] / Psymptomset * Psymptomset_cold;
+    Pcold = Pcold/(1 + Pcold);
+
+    document.getElementById("diseaseChances").innerHTML = "<p>Coronavirus chance: " + Pcovid*100 + "%" + "</p><p>Flu chance: " + Pflu*100 + "%" + "</p><p>Cold chance: " + Pcold*100 + "%" + "</p>";
 }
