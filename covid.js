@@ -1,7 +1,6 @@
 function doBayes() {
     let symptoms = ["fever", "fatigue", "cough", "sneezing", "achesPains", "runnyNose", "soreThroat", "diarrhea", "headache", "shortnessBreath"];
     let diseases = ["covid", "flu", "cold"];
-    let covidOccurence = 1000 / 60000000;
     let PA = [0.0000005, 0.05, 0.002];
     let PB = [0.023, 0.016, 0.046, 0.0023, 0.0029, 0.028, 0.031, 0.01, 0.025, 0.011];
     for (let i = 0; i < PB.length; i++) {
