@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The web site of diamond-grouping</title>
+    <!-- The style.css file allows you to change the look of your web pages.
+    If you include the next line in all your web pages, they will all share the same look.
+         This makes it easier to make new pages for your site. -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css"> -->
+    <link href="/style.css" rel="stylesheet" type="text/css" media="all">
+  </head>
+  <body>
+    <div class="main">
+      <h1>COVID-19 Bayesian Calculator</h1>
+      <p>If you have some set of symptoms, they provide evidence that you have coronavirus, but they also provide evidence that you have some other disease. This web app gives a proof-of-concept.</p>
+
+      <p>THE NUMBERS THAT I AM USING ARE MODERATELY FAKE. As it stands, you should be a little more cautious than the current health guidance (since governments are sluggish and unreliable) - at least stay at home if you have any coronavirus symptoms, and probably be more cautious than that.</p>
+
+      <input type="checkbox" id="feverSymptom" >
+      <label for="feverSymptom">Fever</label><br>
+
+      <input type="checkbox" id="fatigueSymptom">
+      <label for="fatigueSymptom">Fatigue</label><br>
+
+      <input type="checkbox" id="coughSymptom">
+      <label for="coughSymptom">Cough</label><br>
+
+      <input type="checkbox" id="sneezingSymptom">
+      <label for="sneezingSymptom">Sneezing</label><br>
+
+      <input type="checkbox" id="achesPainsSymptom">
+      <label for="achesPainsSymptom">Aches and pains</label><br>
+
+      <input type="checkbox" id="runnyNoseSymptom">
+      <label for="runnyNoseSymptom">Runny nose</label><br>
+
+      <input type="checkbox" id="soreThroatSymptom">
+      <label for="soreThroatSymptom">Sore throat</label><br>
+
+      <input type="checkbox" id="diarrheaSymptom">
+      <label for="diarrheaSymptom">Diarrhea</label><br>
+
+      <input type="checkbox" id="headacheSymptom">
+      <label for="headacheSymptom">Headache</label><br>
+
+      <input type="checkbox" id="shortnessBreathSymptom">
+      <label for="shortnessBreathSymptom">Shortness of breath</label><br>
+
+      <p> After inputting your symptoms, press this button to calculate the chances that you have the 'roni:</p>
+      <p> <button type="button" onClick="doBayes()">Calculate conditional probabilities</button> </p>
+
+
+      <p> <strong>Results</strong> </p>
+
+      <div id="diseaseChances"> </div>
+    </div>
+
+    <script>
+
+      function doBayes() {
+      symptoms = ["fever", "fatigue", "cough", "sneezing", "achesPains", "runnyNose", "soreThroat", "diarrhea", "headache", "shortnessBreath"]
+      diseases = ["covid", "flu", "cold"]
+      covidOccurence = 1000/60000000
+      PA = [0.0000005,0.05,0.002]
+      PB = [0.023,0.016,0.046,0.0023,0.0029,0.028,0.031,0.01,0.025,0.011]
+      let i = 0;
+      for (i=0; i < PB.length; i++) {
+      PB[i] = PB[i]/52
+      }
+      console.log(PB)
+      PBFlu = [0.3,0.3,0.3,0,0.3,0.1,0.1,0.1,0.3,0]
+      PBCold = [0.03,0.1,0.3,0.3,0.3,0.3,0,0.03,0]
+      PBCovid = [0.879,0.381,0.677,0.001,0.148,0.048,0.139,0.037,0.136,0.186]
+
+      let symptom = 0;
+      let Psymptomset = 1;
+      let Psymptomset_cold = 1;
+      let Psymptomset_flu = 1;
+      let Psymptomset_covid = 1;
+      console.log(symptoms.length)
+      for (symptom = 0; symptom < symptoms.length; symptom++) {
+      console.log(document.getElementById(symptoms[symptom]+"Symptom"))
+      console.log(document.getElementById(symptoms[symptom]+"Symptom").checked)
+      if (document.getElementById(symptoms[symptom]+"Symptom").checked) {
+      Psymptomset = Psymptomset*PB[symptom]
+      Psymptomset_cold = Psymptomset_cold*PBCold[symptom]
+      Psymptomset_flu = Psymptomset_flu*PBFlu[symptom]
+      Psymptomset_covid = Psymptomset_covid*PBCovid[symptom]
+      } else {
+      Psymptomset = Psymptomset*(1 - PB[symptom])
+      Psymptomset_cold = Psymptomset_cold*(1-PBCold[symptom])
+      Psymptomset_flu = Psymptomset_flu*(1-PBFlu[symptom])
+      Psymptomset_covid = Psymptomset_covid*(1-PBCovid[symptom])
+      }
+      }
+
+      Pcovid = PA[0] / Psymptomset * Psymptomset_covid
+      console.log(Pcovid)
+
+      Pcovid = Pcovid/(1 + Pcovid)
+
+      document.getElementById("diseaseChances").innerHTML = "<p>Coronavirus chance: " + Pcovid*100 + "%" + "</p>"
+      }
+    </script>
+  </body>
+</html>
