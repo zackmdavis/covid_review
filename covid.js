@@ -4,7 +4,7 @@ function doBayes() {
     let PA = [0.0000005, 0.05, 0.002];
     let PB = [0.023, 0.016, 0.046, 0.0023, 0.0029, 0.028, 0.031, 0.01, 0.025, 0.011];
     for (let i = 0; i < PB.length; i++) {
-        PB[i] = PB[i] / 52;
+        PB[i] /= 52;
     }
     let PBFlu = [0.3, 0.3, 0.3, 0, 0.3, 0.1, 0.1, 0.1, 0.3, 0];
     let PBCold = [0.03, 0.1, 0.3, 0.3, 0.3, 0.3, 0, 0.03, 0];
@@ -16,15 +16,15 @@ function doBayes() {
     let Psymptomset_covid = 1;
     for (let symptom = 0; symptom < symptoms.length; symptom++) {
         if (document.getElementById(symptoms[symptom] + "Symptom").checked) {
-            Psymptomset = Psymptomset * PB[symptom]
-            Psymptomset_cold = Psymptomset_cold * PBCold[symptom]
-            Psymptomset_flu = Psymptomset_flu * PBFlu[symptom]
-            Psymptomset_covid = Psymptomset_covid * PBCovid[symptom]
+            Psymptomset *= PB[symptom]
+            Psymptomset_cold *= PBCold[symptom]
+            Psymptomset_flu *= PBFlu[symptom]
+            Psymptomset_covid *= PBCovid[symptom]
         } else {
-            Psymptomset = Psymptomset * (1 - PB[symptom])
-            Psymptomset_cold = Psymptomset_cold * (1 - PBCold[symptom])
-            Psymptomset_flu = Psymptomset_flu * (1 - PBFlu[symptom])
-            Psymptomset_covid = Psymptomset_covid * (1 - PBCovid[symptom])
+            Psymptomset *= 1 - PB[symptom]
+            Psymptomset_cold *= 1 - PBCold[symptom]
+            Psymptomset_flu *= 1 - PBFlu[symptom]
+            Psymptomset_covid *= 1 - PBCovid[symptom]
         }
     }
 
