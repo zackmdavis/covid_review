@@ -4,6 +4,7 @@ function doBayes() {
     let PA = [0.0000005, 0.05, 0.002];
     let PB = [0.023, 0.016, 0.046, 0.0023, 0.0029, 0.028, 0.031, 0.01, 0.025, 0.011];
     for (let i = 0; i < PB.length; i++) {
+        // XXX: why are we dividing by 52 here?! I can't figure it out —ZMD
         PB[i] /= 52;
     }
     let PBFlu = [0.3, 0.3, 0.3, 0, 0.3, 0.1, 0.1, 0.1, 0.3, 0];
