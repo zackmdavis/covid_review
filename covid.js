@@ -8,7 +8,6 @@ function doBayes() {
     for (i=0; i < PB.length; i++) {
         PB[i] = PB[i]/52
     }
-    console.log(PB)
     PBFlu = [0.3,0.3,0.3,0,0.3,0.1,0.1,0.1,0.3,0]
     PBCold = [0.03,0.1,0.3,0.3,0.3,0.3,0,0.03,0]
     PBCovid = [0.879,0.381,0.677,0.001,0.148,0.048,0.139,0.037,0.136,0.186]
@@ -18,10 +17,7 @@ function doBayes() {
     let Psymptomset_cold = 1;
     let Psymptomset_flu = 1;
     let Psymptomset_covid = 1;
-    console.log(symptoms.length)
     for (symptom = 0; symptom < symptoms.length; symptom++) {
-        console.log(document.getElementById(symptoms[symptom]+"Symptom"))
-        console.log(document.getElementById(symptoms[symptom]+"Symptom").checked)
         if (document.getElementById(symptoms[symptom]+"Symptom").checked) {
             Psymptomset = Psymptomset*PB[symptom]
             Psymptomset_cold = Psymptomset_cold*PBCold[symptom]
@@ -36,7 +32,6 @@ function doBayes() {
     }
 
     Pcovid = PA[0] / Psymptomset * Psymptomset_covid
-    console.log(Pcovid)
 
     Pcovid = Pcovid/(1 + Pcovid)
 
