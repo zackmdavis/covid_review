@@ -29,6 +29,7 @@ function doBayes() {
     }
 
     let Pcovid = PA[0] / Psymptomset * Psymptomset_covid;
+    // convert odds ratio to probability?
     Pcovid = Pcovid / (1 + Pcovid);
 
     document.getElementById("diseaseChances").innerHTML = "<p>Coronavirus chance: " + Pcovid * 100 + "%" + "</p>"
